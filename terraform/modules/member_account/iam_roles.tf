@@ -66,3 +66,26 @@ resource "aws_iam_role" "tenant_view_only_role" {
 }
 EOF
 }
+
+resource "aws_iam_role" "grace_inventory_lambda_iam_role" {
+  count = "${var.create_iam_roles == "true" ? 1 : 0}"
+
+  provider = "aws.child"
+
+  name = "grace-inventory-lambda"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": ${jsonencode(concat(formatlist("arn:aws:iam::%s:user/%s", var.grace_monitoring_prod_account_id, "grace-inventory-lambda")))}
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}

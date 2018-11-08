@@ -53,6 +53,17 @@ resource "aws_iam_policy" "GRACE_tenant_View_Only_Policy3" {
   policy      = "${file("${path.module}/iam_policy_files/view_policy3.json")}"
 }
 
+resource "aws_iam_policy" "grace_inventory_lambda_iam_policy" {
+  count = "${var.create_iam_roles == "true" ? 1 : 0}"
+
+  provider = "aws.child"
+
+  name        = "grace_inventory_lambda"
+  path        = "/"
+  description = "Cross-account profile for AWS service inventory"
+  policy      = "${file("${path.module}/iam_policy_files/grace_inventory_lambda_policy.json")}"
+}
+
 resource "aws_iam_role_policy_attachment" "grace_tenant_admins_policy_attachment" {
   count = "${var.create_iam_roles == "true" ? 1 : 0}"
 
@@ -94,4 +105,13 @@ resource "aws_iam_role_policy_attachment" "grace_tenant_view_only_policy3_attach
 
   role       = "${aws_iam_role.tenant_view_only_role.name}"
   policy_arn = "${aws_iam_policy.GRACE_tenant_View_Only_Policy3.arn}"
+}
+
+resource "aws_iam_role_policy_attachment" "grace_inventory_lambda_iam_role_policy_attachment" {
+  count = "${var.create_iam_roles == "true" ? 1 : 0}"
+
+  provider = "aws.child"
+
+  role       = "${aws_iam_role.grace_inventory_lambda_iam_role.name}"
+  policy_arn = "${aws_iam_policy.grace_inventory_lambda_iam_policy.arn}"
 }
