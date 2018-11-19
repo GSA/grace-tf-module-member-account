@@ -81,7 +81,7 @@ resource "aws_iam_role" "grace_inventory_lambda_iam_role" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": ${jsonencode(concat(formatlist("arn:aws:iam::%s:user/%s", var.grace_monitoring_prod_account_id, "grace-inventory-lambda")))}
+        "AWS": "arn:aws:iam::${var.grace_monitoring_prod_account_id}:user/grace-inventory-lambda"
       },
       "Action": "sts:AssumeRole"
     }
