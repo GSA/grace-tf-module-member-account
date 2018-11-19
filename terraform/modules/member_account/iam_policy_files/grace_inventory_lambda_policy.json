@@ -16,7 +16,7 @@
         "iam:ListGroups",
         "iam:ListPolicies",
         "iam:ListRoles",
-        "iam:ListUsers",
+        "iam:ListUsers"
       ],
       "Effect": "Allow",
       "Resource": "*"
