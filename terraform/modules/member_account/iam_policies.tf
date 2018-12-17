@@ -1,8 +1,8 @@
-resource "aws_iam_policy" "GRACE_tenant_Admins_Policy" {
+resource "aws_iam_policy" "grace_all_forceMfa_iam_policy" {
   provider = "aws.child"
 
-  name        = "GRACE_tenant_Admins_Policy"
+  name        = "grace_all_forceMfa"
   path        = "/"
-  description = "GRACE_tenant_Admins_Policy"
-  policy      = "${file("${path.module}/iam_policy_files/admin_policy.json")}"
+  description = "Forces iam users to set MFA to access services"
+  policy      = "${file("${path.module}/iam_policy_files/grace_all_forceMfa_iam_policy.json")}"
 }
